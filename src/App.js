@@ -1,25 +1,65 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import { Switch, Route, Redirect } from 'react-router-dom'
+import productService from './services/products'
+import NavMenu from './components/NavMenu'
+import ProductTable from './components/ProductTable'
+import { useInterval } from './hooks/useInterval'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = () => {
+  const [gloves, setGloves] = useState(null)
+  const [beanies, setBeanies] = useState(null)
+  const [facemasks, setFacemasks] = useState(null)
+  const REFETCH_DATA_PERIOD_IN_MINUTES = 1
+
+  useEffect(() => {
+    productService
+      .getAll()
+      .then(receivedProducts => {
+        setGloves(receivedProducts.gloves)
+        setBeanies(receivedProducts.beanies)
+        setFacemasks(receivedProducts.facemasks)
+      }).catch(e => alert('Server did not receive data from legacy api yet, try again soon'))
+  }, [])
+
+  useInterval(() => {
+    productService
+      .getAll()
+      .then(receivedProducts => {
+        setGloves(receivedProducts.gloves)
+        setBeanies(receivedProducts.beanies)
+        setFacemasks(receivedProducts.facemasks)
+      }).catch(e => alert('Could not refetch data'))
+  }, 1000 * 60 * REFETCH_DATA_PERIOD_IN_MINUTES)
+
+  if(!gloves || !facemasks || !beanies) {
+    return(
+      <div>loading...</div>
+    )
+  }
+
+  return(
+    <div className="container">
+      <NavMenu/>
+
+      <Switch>
+
+        <Route path="/beanies">
+          <ProductTable products={beanies} />
+        </Route>
+
+        <Route path="/facemasks">
+          <ProductTable products={facemasks} />
+        </Route>
+
+        <Route path="/gloves">
+          <ProductTable products={gloves} />
+        </Route>
+
+        <Redirect from="/" to="/gloves" />
+
+      </Switch>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
