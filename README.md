@@ -1,70 +1,18 @@
-# Getting Started with Create React App
+# warehouse app
+This app was made for the Reaktor 2021 junior developer assignment. It consists of a Node / Express server backend, and React frontend. The backend is at the root, and frontend under /src folder.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The server periodically fetches warehouse data from legacy APIs (https://bad-api-assignment.reaktor.com/), saves it in cache, and provides it to the frontend through a better API at `/api/products` .
 
-## Available Scripts
+Because the amount of data is huge, the frontend uses react-fluid-table to list the data (only rows that are visible in the window are rendered). Product category can quickly be changed from the navigation menu. If there were many more categories, a dropdown menu or such could be used instead.
 
-In the project directory, you can run:
+When the server is first launched, it takes a while to get the data from the legacy api for the first time. Later there will be no visible delays to the frontend user, because the data is updated periodically in the background.
 
-### `npm start`
+## live demo
+The app is deployed on Heroku at [https://young-bastion-96987.herokuapp.com/](https://young-bastion-96987.herokuapp.com/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## some remaining issues
+1. Testing is lacking
+2. Error handling is not very good
+3. Due to the large amount of data, UI really needs features such as search, filtering, ordering...
+4. When should frontend update data? Right now it does automatically every 2 minutes
+5. User experience is not very smooth during the initial load

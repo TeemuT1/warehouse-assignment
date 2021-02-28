@@ -6,6 +6,7 @@ const API_PRODUCTS_URL = 'v2/products/'
 const API_AVAILABILITY_URL = 'v2/availability/'
 const CATEGORIES = ['gloves', 'facemasks', 'beanies']
 
+//this is called when front end requests products
 const getProductsFromCache = () => {
 
   const cachedProducts = productsCache.get('products')
@@ -17,6 +18,7 @@ const getProductsFromCache = () => {
   return cachedProducts
 }
 
+//server uses this to regularly update the cache
 const updateCacheWithProductsFromBadApi = async () => {
 
   let productData = {}
@@ -45,6 +47,8 @@ const updateCacheWithProductsFromBadApi = async () => {
   productsCache.set('products', productData)
   console.log('cache updated')
 }
+
+//helper functions below
 
 const getProductsFromBadApi = async () => {
   let productData = {}

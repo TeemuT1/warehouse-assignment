@@ -17,39 +17,6 @@ const updateCache = async () => {
   }
 }
 
-//sometimes api fails and gives this response
-/*
-{
-code: 200,
-response: "[]"
-}
-normal response from /availability/:manufacturer
-{
-  code: 200,
-  response: [
-    {
-    id: "5CDF3D3C78C0BD674FD72",
-    DATAPAYLOAD: "<AVAILABILITY> <CODE>200</CODE> <INSTOCKVALUE>INSTOCK</INSTOCKVALUE> </AVAILABILITY>"
-    },
-    ...
-  ]
-}
-normal response from /products/:category
-[
-  {
-  id: "80831586413299704b7b50c",
-  type: "gloves",
-  name: "VEDAL NORMAL",
-  color: [
-  "purple"
-  ],
-  price: 89,
-  manufacturer: "juuran"
-  },
-  ...
-]
-*/
-
 app.use(cors())
 app.use(express.static(path.join(__dirname, './build')))
 
@@ -65,9 +32,10 @@ app.listen(PORT, () => {
   console.log('server started on port 5000')
 })
 
+//fetch initial data from legacy api and save to cache
 updateCache()
 
+//update cache every 5 minutes
 setInterval(() => {
   updateCache()
-}, 5 * 60000)
-
+}, 5 * 60 * 1000)

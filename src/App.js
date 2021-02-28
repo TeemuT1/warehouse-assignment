@@ -9,7 +9,7 @@ const App = () => {
   const [gloves, setGloves] = useState(null)
   const [beanies, setBeanies] = useState(null)
   const [facemasks, setFacemasks] = useState(null)
-  const REFETCH_DATA_PERIOD_IN_MINUTES = 1
+  const REFETCH_DATA_PERIOD_IN_MINUTES = 2
 
   useEffect(() => {
     productService
@@ -18,7 +18,7 @@ const App = () => {
         setGloves(receivedProducts.gloves)
         setBeanies(receivedProducts.beanies)
         setFacemasks(receivedProducts.facemasks)
-      }).catch(e => alert('Server did not receive data from legacy api yet, try again soon'))
+      }).catch(e => alert('Server did not receive initial data from legacy api yet, please refresh page in a few seconds'))
   }, [])
 
   useInterval(() => {
