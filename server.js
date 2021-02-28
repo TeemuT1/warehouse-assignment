@@ -54,6 +54,11 @@ app.use(cors())
 app.use(express.static(path.join(__dirname, './build')))
 
 app.use('/api/products', productsRouter)
+
+app.get('*', function(request, response) {
+  response.sendFile(path.resolve(__dirname, './build', 'index.html'))
+})
+
 app.use((error, request, response, next) => {middleware.errorHandler(error, request, response, next)})
 
 app.listen(PORT, () => {
